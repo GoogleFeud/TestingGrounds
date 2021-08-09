@@ -948,7 +948,7 @@ socket.on(Type.PRENOT,function(notification)
 	  	addMessage({msg: "You were attacked but someone protected you!", styling: 'reviving'}, 'prenot');
 	  	break;
 	  case 'SAVED_BY_BG': 
-	  	addMessage({msg: "You were attacked but someone protected you!", styling: 'reviving'}, 'prenot');
+	  	addMessage({msg: "You were attacked but someone fought off your attacker!", styling: 'reviving'}, 'prenot');
 	  	break;
 	  case 'SAVED_BY_TRAP': 
 	  	addMessage({msg: "You were attacked by a trap saved you!", styling: 'reviving'}, 'prenot');
@@ -972,10 +972,10 @@ socket.on(Type.PRENOT,function(notification)
          addMessage({msg:'You were doused!',styling:'dying'},'prenot');
       break;
       case 'TARGETIMMUNE':
-         addMessage({msg:'Your target was immune to your attack!',styling:'dying'},'prenot');
+         addMessage({msg:'Your target\'s defense was too strong to kill.',styling:'dying'},'prenot');
       break;
       case 'IMMUNE':
-         addMessage({msg:'You were attacked, but you are immune at night!',styling:'dying'},'prenot');
+         addMessage({msg:'Someone attacked you but your defense was too strong!',styling:'dying'},'prenot');
       break;
       case 'JESTER':
          addMessage({msg:'The Jester will have their revenge from the grave!',styling:'dying'},'prenot');
@@ -987,10 +987,10 @@ socket.on(Type.PRENOT,function(notification)
          addMessage({msg:'You shot someone who visited you!',styling:'dying'},'prenot');
       break;
       case 'RB':
-         addMessage({msg:'You were roleblocked!',styling:'dying'},'prenot');
+         addMessage({msg:'Someone occupied your night. You were roleblocked!',styling:'dying'},'prenot');
       break;
       case 'WITCHED':
-         addMessage({msg:'You felt a mysterious power dominating you.You were controlled by a Witch!',styling:'dying'},'prenot');
+         addMessage({msg:'You felt a mystical power dominating you.You were controlled by a Witch!',styling:'dying'},'prenot');
       break;
       case 'REVIVE':
          addMessage({msg:'You were revived!',styling:'reviving'},'prenot');
@@ -1070,7 +1070,6 @@ socket.on(Type.GUARDIAN_ANGEL, function(name, yourName) {
 		if (mod) {
 			$(`#${name}-angel`).remove();
 			socket.emit(Type.REMOVE_EMOJI, `${name}-angel`);
-			currentEmojis.guardianAngel = false;
 		}
 	});
 });
