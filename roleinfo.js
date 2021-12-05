@@ -1,9 +1,9 @@
 //colors
-var towncolor="#b0ff39";
-var mafiacolor="#be0000";
-var covencolor="#ab5ffb";
-var vampcolor="#7f896a";
-var randcolor="#497cef";
+var towncolor='#00BF00';
+var mafiacolor='#FF0000';
+var covencolor='#AB5FFB';
+var vampcolor='#7F896A';
+var randcolor='#497CEF';
 var neutcolor='#bcbcbc';
 var anycolor='#F5F5F5';
 var mystcolor='#D7B4F3';
@@ -393,7 +393,7 @@ var roles=[
 				abilities:['Put on a bulletproof vest at night, granting you Basic Defense.'],
 				attributes:['You can only use the bulletproof vest 4 times.'],
 				goal:"Live to the end of the game.",
-				color:"#dddd30"
+				color:"#DDDD30"
 			},
 			{      
 				rolename:"amnesiac",
@@ -401,7 +401,7 @@ var roles=[
 				abilities:['Remember who you were by selecting a graveyard role.'],
 				attributes:['When you choose a role it will be revealed to all the players in the game.'],
 				goal:"Remember who you were and complete that roles objectives.",
-				color:"#94ffff"
+				color:"#94FFFF"
 			},
 	                {      
 				rolename:"guardian angel",
@@ -421,7 +421,7 @@ var roles=[
 				abilities:['Trick the Town into voting against you.'],
 				attributes:['If you are lynched you may kill one of your guilty or abstaining voters the following night.'],
 				goal:"Get yourself lynched by any means necessary.",
-				color:"#e6b3d9"
+				color:"#E6B3D9"
 			},
 			{      
 				rolename:"executioner",
@@ -440,7 +440,7 @@ var roles=[
 					'Your victim will know they are being controlled.',
 					'You will know the role of the player you Control.'],
 				goal:"Survive to see the Town lose the game.",
-				color:"#cc8899"
+				color:"#9D00FF"
 			},
 	
 			// NEUTRAL KILLING VANILLA
@@ -452,7 +452,7 @@ var roles=[
 					'Role blockers that target you will have their last will covered in blood making it unreadable.',
 					'You can choose to be cautious and not kill role blockers.'],
 				goal:"Kill everyone who would oppose you.",
-				color:"#4a6efb"
+				color:"#4A6EFB"
 			},
 			{      
 				rolename:"arsonist",
@@ -463,7 +463,7 @@ var roles=[
 					'If you take no action, you will attempt to clean gasoline off yourself.',
 					'Doused targets will have their investigative results changed. Players will not know they were doused.'],
 				goal:"Live to see everyone else burn.",
-				color:"#d57615"
+				color:"#D57615"
 			},
 			{      
 				rolename:"werewolf",
@@ -472,7 +472,7 @@ var roles=[
 				attributes:['You will Rampage at a player\'s house when you attack.',
 					'If you do not select a target you will stay home and Rampage at your home.'],
 				goal:"Kill everyone who would oppose you.",
-				color:"#94703d"
+				color:"#94703D"
 			},
 	                {      
 				rolename:"juggernaut",
@@ -483,7 +483,7 @@ var roles=[
 					'On your second kill, you Rampage when you attack.',
 					'On your third kill, you ignore all effects that would protect a player.'],
 				goal:"Kill everyone who would oppose you.",
-				color:"#8c2b55"
+				color:"#8C2B55"
 
 			},
 	
@@ -495,7 +495,7 @@ var roles=[
 				attributes:['When you plunder a player, you will duel the player for their valuables.',
 					'If the player defends against your attack, you get no loot.'],
 				goal:"Successfully plunder two players.",
-				color:"#e2c24c"
+				color:"#E2C24C"
 			},
 	                {      
 				rolename:"plaguebearer",
@@ -506,7 +506,7 @@ var roles=[
 					'Players will not know they have been infected.',
 					'When all living players are infected, you will become Pestilence.'],
 				goal:"Infect all living players and become Pestilence.",
-				color:"#deff70"
+				color:"#DEFF70"
 			},
 	                {      
 				rolename:"pestilence",
@@ -527,7 +527,7 @@ var roles=[
 					'The youngest Vampire will visit the target at night.',
 					'If your target cannot be converted, they will instead be dealt a Basic attack.'],
 				goal:"Convert everyone who would oppose you.",
-				color:"#7f896a"
+				color:"#7F896A"
 			},
 
 			// === CUSTOM ROLES ====
@@ -549,7 +549,7 @@ var roles=[
 				alignment:"town investigative",
 				abilities:['Investigate one person at night for Occult activities.'],
 				attributes:['You will know if your target participates in Occult activities.',
-					'Occult roles: Mediums, Psychics, Retributionist, Hypnotists, Witches, Coven members, Guardian Angels, Vampires, Werewolves.'],
+					'Occult roles: Mediums, Psychics, Retributionist, Seekers, Hypnotists, Witches, Coven members, Guardian Angels, Vampires, Werewolves.'],
 				goal:towngoal,
 				color:towncolor,
 				custom:true
@@ -604,7 +604,7 @@ var roles=[
 				rolename:"seeker",
 				alignment:"town support",
 				abilities:['You may speak to all factions at once at night. Your name will appear as Seeker.'],
-				attributes:['You can hear all night time conversations except for those with the dead.',
+				attributes:['You can hear all night time conversations except for the dead.',
 					'You cannot decipher which faction, what role or who is speaking.'],
 				goal:towngoal,
 				color:towncolor,
@@ -848,7 +848,7 @@ var roles=[
 					'Your ability fails if you give information to a townperson, and you will NOT be notified of this.',
 					'You own one auto-vest.'],
 				goal:"Survive to see the Town lose the game.",
-				color:"#808000"
+				color:"#808000",
 				custom:true
 			},
 	                {
@@ -858,7 +858,7 @@ var roles=[
 				attributes:['You will scare one visitor away from your target, effectively roleblocking them.',
 					'You can only scare Town roles away from your target.'],
 				goal:"Survive to see the Town lose the game.",
-				color:"#BF4040"
+				color:"#BF4040",
 				custom:true
 			},
 	{
@@ -868,7 +868,8 @@ var roles=[
 				attributes:['If the marked player dies during the same day or night, you will copy their abilities.',
 					'Copying a killing role will replenish the one-shot basic defense shield if depleted. Copying a killing role while the shield is intact grants a one-shot basic attack.'],
 				goal:"See the Town lose the game.",
-				color:"#8080FF"
+				color:"#8080FF",
+		                custom:true
 			},
 	{
 				rolename:"fairy",
@@ -878,9 +879,10 @@ var roles=[
 					'Town will not know you tricked them.',
 					'You cannot be roleblocked or controlled.'],
 				goal:"Survive to see the Town lose the game.",
-				color:"#FF69B4"
+				color:"#FF69B4",
 	                        custom:true
 			},
+	
 			// NEUTRAL KILLING CUSTOM	
 	{      
 				rolename:"butcher",
@@ -1015,7 +1017,8 @@ var roles=[
                			rolename:"lampir",
                			alignment:"vampire killing",
           			abilities:['You may choose a target to drain blood from at night.'],
-               			attributes:['You can talk to the other Vampires at night.'],
+               			attributes:['If you are roleblocked, you will instead attack the player who roleblocked you. Their last will will be unreadable.',
+					    'You can talk to the other Vampires at night.'],
 			        goal:vampgoal,
                			color:vampcolor,
 				custom:true
