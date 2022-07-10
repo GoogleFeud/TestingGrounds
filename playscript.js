@@ -279,9 +279,12 @@ function openModList(targ)
 				mafia: 'Mafia Chat',
 				coven: 'Coven Chat',
 				vamp: 'Vampire Chat',
+				linked: 'Linked',
 				jailor: 'Jailor',
 				mayor: 'Mayor',
 				blackmailer: 'Read Whispers',
+				blackmail: 'Blackmailed',
+				deafen: 'Deafened',
 				medium: 'Hear Dead',
 				wisteria: 'Wisteria',
 				gardenia: 'Gardenia',
@@ -290,27 +293,10 @@ function openModList(targ)
 				negative: 'Negative Chat',
 			};
 			var actions = {
-				'Blackmail':function()
-				{
-					var name = $(this.parentNode).attr('name');
-					socket.sendMessage(Type.TOGGLE,name,'blackmail');
-				},
-				'Link':function()
-				{
-					var name = $(this.parentNode).attr('name');
-					socket.sendMessage(Type.TOGGLE,name,'linked');
-				},
 				'Douse': function () {
 					if ($(`#${name}-fire`).length) return;
 				    var name = $(this.parentNode).attr('name');
-				    socket.sendMessage(Type.TOGGLE, name, 'douse');
-					$(`#p-${name}`).append(`<span class="emoji" id="${name}-fire">🔥</span>`);
-					$(`#${name}-fire`).click(() => {
-						if (mod) {
-							$(`#${name}-fire`).remove();
-							socket.sendMessage(Type.REMOVE_EMOJI, `${name}-fire`);
-						}
-					});
+				    socket.sendMessage(Type.TOGGLE, name, 'douse', true);
 				},
 				'Hex': function () {
 					if ($(`#${name}-hex`).length) return;
@@ -451,15 +437,7 @@ function openModList(targ)
 				tmp.click(function() {
 					var name = $(this).closest(".info").find(".name").html();
 					var controlbutton = $(this).closest('.controlbutton.more');
-					if (controlbutton.hasClass(chat+'buttondown'))
-					{
-						controlbutton.removeClass(chat+'buttondown');
-					}
-					else
-					{
-						controlbutton.addClass(chat+'buttondown');
-					}
-					socket.sendMessage(Type.TOGGLE,name,chat);
+					socket.sendMessage(Type.TOGGLE,name,chat,!controlbutton.hasClass(chat+'buttondown'));
 				});
 				list.append(tmp);
 			});
@@ -790,33 +768,24 @@ function chooseAutoButton(info, label)
 			};
 		break;
 		/*Actions*/
-		case '<Kill>': case'<Revive>':
+		case '<Kill>':
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.sendMessage(Type.TOGGLELIVING,to);
-				//Stupid button swapping stuff that I have no idea why I thought was a good idea at the time.
-				var index = users.indexOf(to);
-				var buttons = $('.killbutton, .revivebutton');
-				if ($(buttons[index]).hasClass('killbutton'))
-				{
-					$(buttons[index]).removeClass('killbutton');
-					$(buttons[index]).addClass('revivebutton');
-					$(buttons[index]).html('<span>Revive</span>');
-				}
-				else
-				{
-					$(buttons[index]).removeClass('revivebutton');
-					$(buttons[index]).addClass('killbutton');
-					$(buttons[index]).html('<span>Kill</span>');
-				}
+				socket.sendMessage(Type.TOGGLELIVING,to,false);
+			};
+		case'<Revive>':
+			func = function(){
+				var tr = $(this).parent().parent();
+				var to = $($(tr.children()[1]).children()[0]).html();
+				socket.sendMessage(Type.TOGGLELIVING,to,true);
 			};
 		break;
 	    case '<Douse>':
 	        func = function () {
 	            var tr = $(this).parent().parent();
 	            var to = $($(tr.children()[1]).children()[0]).html();
-	            socket.sendMessage(Type.TOGGLE, to, 'douse');
+	            socket.sendMessage(Type.TOGGLE, to, 'douse', true);
 	        };
 	    break;
 	    case '<Set Role>':
@@ -835,56 +804,32 @@ function chooseAutoButton(info, label)
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.sendMessage(Type.TOGGLE,to,'blackmail');
+				socket.sendMessage(Type.TOGGLE,to,'blackmail',true);
 			};
 		break;
 		case '<Jail>':
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.sendMessage(Type.TOGGLE,to,'jailed');
 				var index = users.indexOf(to);
 				var buttons = $('.jailbutton, .releasebutton');
-				if ($(buttons[index]).hasClass('jailbutton'))
-				{
-					$(buttons[index]).removeClass('jailbutton');
-					$(buttons[index]).addClass('releasebutton');
-					$(buttons[index]).html('<span>Release</span>');
-				}
-				else
-				{
-					$(buttons[index]).removeClass('releasebutton');
-					$(buttons[index]).addClass('jailbutton');
-					$(buttons[index]).html('<span>Jail</span>');
-				}
+				socket.sendMessage(Type.TOGGLE,to,'jailed', $(buttons[index]).hasClass('jailbutton'));
 			};
 		break;
 		case '<Entangle>':
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.sendMessage(Type.TOGGLE,to,'entangled');
 				var index = users.indexOf(to);
 				var buttons = $('.entanglebutton, .disentanglebutton');
-				if ($(buttons[index]).hasClass('entanglebutton'))
-				{
-					$(buttons[index]).removeClass('entanglebutton');
-					$(buttons[index]).addClass('disentanglebutton');
-					$(buttons[index]).html('<span>Disentangle</span>');
-				}
-				else
-				{
-					$(buttons[index]).removeClass('disentanglebutton');
-					$(buttons[index]).addClass('entanglebutton');
-					$(buttons[index]).html('<span>Entangle</span>');
-				}
+				socket.sendMessage(Type.TOGGLE,to,'entangled',$(buttons[index]).hasClass('entanglebutton'));
 			};
 		break;
 		case '<Linked>':
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.sendMessage(Type.TOGGLE,to,'linked');
+				socket.sendMessage(Type.TOGGLE,to,'linked', true);
 			};
 		break;
 		case '<Clean>':

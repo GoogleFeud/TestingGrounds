@@ -224,7 +224,13 @@ function processMessage(msg, type)
 			return '<li class="'+msg.styling+'">'+msg.msg+'</li>';
 		break;
 		case 'vote':
-			return '<li><b>'+msg.voter+'</b><span class="vote">'+msg.msg+'</span><b>'+msg.voted+'</b></li>';
+			if(msg.prev && msg.voted) {
+				return '<li><b>'+msg.voter+'</b><span class="vote"> has changed their vote to </span><b>'+msg.voted+'</b></li>';
+			} else if(msg.voted) {
+				return '<li><b>'+msg.voter+'</b><span class="vote"> has voted for </span><b>'+msg.voted+'</b></li>';
+			} else if(msg.prev) {
+				return '<li><b>'+msg.voter+'</b><span class="vote"> has cancelled their vote.</span></li>';
+			}
 		break;
 		case 'verdict':
 			if (msg.val==0)
@@ -241,30 +247,17 @@ function processMessage(msg, type)
 			}
 		break;
 		case 'judgement':
-			var guilties = 0;
-			var innos = 0;
-			for (i in msg.votes)
-			{
-				if (msg.votes[i] >0) //Inno
-				{
-					innos+=msg.votes[i];
-				}
-				else if (msg.votes[i] <0) //Guilty
-				{
-					guilties-=msg.votes[i];
-				}
-			}
 			var message = '';
 			for (i in msg.votes)
 			{
 				switch (msg.votes[i])
 				{
-					case -1: case -3: message += '<li>'+i+' <span class="vote">voted</span> <span class="guilty">guilty</span>.</li>'; break;
+					case -1: message += '<li>'+i+' <span class="vote">voted</span> <span class="guilty">guilty</span>.</li>'; break;
 					case 0: message += '<li>'+i+' <span class="abstain">abstained</span>.</li>'; break;
-					case 1: case 3: message += '<li>'+i+' <span class="vote">voted</span> <span class="inno">innocent</span>.</li>'; break;
+					case 1: message += '<li>'+i+' <span class="vote">voted</span> <span class="inno">innocent</span>.</li>'; break;
 				}
 			}
-			message += '<li class="vote">The Town has decided to '+(msg.result ? 'lynch' : 'pardon')+' '+msg.name+' by a vote of <span class="inno"><b>'+innos+'</b></span> to <span class="guilty"><b>'+guilties+'</b></span>.</li>';
+			message += '<li class="vote">The Town has decided to '+(msg.result ? 'lynch' : 'pardon')+' '+msg.name+' by a vote of <span class="inno"><b>'+msg.innos+'</b></span> to <span class="guilty"><b>'+msg.guilties+'</b></span>.</li>';
 			return message;
 		break;
 		case 'will':
@@ -513,9 +506,11 @@ addMessageHandler(Type.HUG,function(name,target)
 {
 	return processMessage({name:name,target:target},'hug');
 });
-addMessageHandler(Type.VOTE,function(voter,msg,voted,prev)
+addMessageHandler(Type.VOTE,function(voter,display,voted,prev)
 {
-	return processMessage({voter:voter,msg:msg,voted:voted},'vote');
+	if(display) {
+		return processMessage({voter,voted,prev},'vote');
+	}
 });
 addMessageHandler(Type.VERDICT,function(name,val)
 {

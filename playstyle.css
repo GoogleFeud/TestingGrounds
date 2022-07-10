@@ -1294,6 +1294,18 @@ a:visited
 	background: #6c7d47;
 	background-size: 100% 100%;
 }
+.linkedbutton {
+	background: #364040;
+	background-size: 100% 100%;
+}
+.linkedbutton:hover {
+	background: #505050;
+	background-size: 100% 100%;
+}
+.linkedbuttondown .linkedbutton {
+	background: lawngreen;
+	background-size: 100% 100%;
+}
 .jailorbutton {
    background: #364040;
    background-size:100% 100%;
@@ -1316,6 +1328,18 @@ a:visited
    background-size:100% 100%;
 }
 .blackmailerbuttondown .blackmailerbutton {
+   background: goldenrod;
+   background-size:100% 100%;
+}
+.blackmailbutton {
+   background: #364040;
+   background-size:100% 100%;
+  }
+.blackmailbutton:hover {
+   background:#A48111;
+   background-size:100% 100%;
+}
+.blackmailbuttondown .blackmailbutton {
    background: goldenrod;
    background-size:100% 100%;
 }

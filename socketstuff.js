@@ -92,39 +92,14 @@ function modInterface()
 		var kill = $('<div class="controlbutton killbutton"><span>Kill</span></div>');
 		kill.click(function()
 		{
-			if ($(this).hasClass('killbutton'))
-			{
-				var index = $('.killbutton, .revivebutton').index($(this))
-				$(this).removeClass('killbutton');
-				$(this).addClass('revivebutton');
-				$(this).html('<span>Revive</span>');
-			}
-			else
-			{
-				var index = $('.killbutton, .revivebutton').index($(this))
-				$(this).removeClass('revivebutton');
-				$(this).addClass('killbutton');
-				$(this).html('<span>Kill</span>');
-			}
-			socket.sendMessage(Type.TOGGLELIVING,users[index]);
+			var index = $('.killbutton, .revivebutton').index($(this))
+			socket.sendMessage(Type.TOGGLELIVING,users[index],!$(this).hasClass('killbutton'));
 		});
 		var jail= $('<div class="controlbutton jailbutton"><span>Jail</span></div>');
 		jail.click(function()
 		{
 			var index = $('.jailbutton, .releasebutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'jailed');
-			if ($(this).hasClass('jailbutton'))
-			{
-				$(this).removeClass('jailbutton');
-				$(this).addClass('releasebutton');
-				$(this).html('<span>Release</span>');
-			}
-			else
-			{
-				$(this).removeClass('releasebutton');
-				$(this).addClass('jailbutton');
-				$(this).html('<span>Jail</span>');
-			}
+			socket.sendMessage(Type.TOGGLE,users[index],'jailed',$(this).hasClass('jailbutton'));
 		});
 		var will = $('<div class="controlbutton modwillbutton"><span>W</span></div>');
 		var more = $('<div class="controlbutton more"></div>');
@@ -173,19 +148,7 @@ function modInterface()
 		entangle.click(function()
 		{
 			var index = $('.entanglebutton, .disentanglebutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'entangled');
-			if ($(this).hasClass('entanglebutton'))
-			{
-				$(this).removeClass('entanglebutton');
-				$(this).addClass('disentanglebutton');
-				$(this).html('<span>Disentangle</span>');
-			}
-			else
-			{
-				$(this).removeClass('disentanglebutton');
-				$(this).addClass('entanglebutton');
-				$(this).html('<span>Entangle</span>');
-			}
+			socket.sendMessage(Type.TOGGLE,users[index],'entangled',$(this).hasClass('entanglebutton'));
 		});
 
 		modcontrols.append(entangle);
@@ -396,39 +359,14 @@ addSocketListener(Type.JOIN,function(name)
 		var kill = $('<div class="controlbutton killbutton"><span>Kill</span></div>');
 		kill.click(function()
 		{
-			if ($(this).hasClass('killbutton'))
-			{
-				var index = $('.killbutton, .revivebutton').index($(this))
-				$(this).removeClass('killbutton');
-				$(this).addClass('revivebutton');
-				$(this).html('<span>Revive</span>');
-			}
-			else
-			{
-				var index = $('.killbutton, .revivebutton').index($(this))
-				$(this).removeClass('revivebutton');
-				$(this).addClass('killbutton');
-				$(this).html('<span>Kill</span>');
-			}
-			socket.sendMessage(Type.TOGGLELIVING,users[index]);
+			var index = $('.killbutton, .revivebutton').index($(this))
+			socket.sendMessage(Type.TOGGLELIVING,users[index],!$(this).hasClass('killbutton'));
 		});
 		var jail= $('<div class="controlbutton jailbutton"><span>Jail</span></div>');
 		jail.click(function()
 		{
 			var index = $('.jailbutton, .releasebutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'jailed');
-			if ($(this).hasClass('jailbutton'))
-			{
-				$(this).removeClass('jailbutton');
-				$(this).addClass('releasebutton');
-				$(this).html('<span>Release</span>');
-			}
-			else
-			{
-				$(this).removeClass('releasebutton');
-				$(this).addClass('jailbutton');
-				$(this).html('<span>Jail</span>');
-			}
+			socket.sendMessage(Type.TOGGLE,users[index],'jailed',$(this).hasClass('jailbutton'));
 		});
 		var will = $('<div class="controlbutton modwillbutton"><span>W</span></div>');
 		var more = $('<div class="controlbutton more"><span class="downarrow"></span></div>');
@@ -473,19 +411,7 @@ addSocketListener(Type.JOIN,function(name)
 		entangle.click(function()
 		{
 			var index = $('.entanglebutton, .disentanglebutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'entangled');
-			if ($(this).hasClass('entanglebutton'))
-			{
-				$(this).removeClass('entanglebutton');
-				$(this).addClass('disentanglebutton');
-				$(this).html('<span>Disentangle</span>');
-			}
-			else
-			{
-				$(this).removeClass('disentanglebutton');
-				$(this).addClass('entanglebutton');
-				$(this).html('<span>Entangle</span>');
-			}
+			socket.sendMessage(Type.TOGGLE,users[index],'entangled',$(this).hasClass('entanglebutton'));
 		});
 
 		modcontrols.append(entangle);
@@ -694,6 +620,24 @@ addSocketListener(Type.TOGGLELIVING,function(p)
 				li.find('.roledisplay').remove();
 			}
 			li.find(`#${p.name}-will`).remove();
+		}
+	}
+	else
+	{
+		var index = users.indexOf(p.name);
+		var li = $($('#userlist').children()[index]);
+		var button = li.find('.killbutton, .revivebutton');
+		if (p.hasOwnProperty('role'))
+		{
+			button.removeClass('killbutton');
+			button.addClass('revivebutton');
+			button.html('<span>Revive</span>');
+		}
+		else
+		{
+			button.removeClass('revivebutton');
+			button.addClass('killbutton');
+			button.html('<span>Kill</span>');
 		}
 	}
 });
@@ -953,6 +897,66 @@ addSocketListener(Type.SWITCH,function(name1,name2)
 	$('.num')[i1].innerHTML = (i1==0)?'MOD':i1;
 	$('.num')[i2].innerHTML = (i2==0)?'MOD':i2;
 });
+addSocketListener(Type.TOGGLE, function(to, chat, state) {
+	if(!mod)
+		return;
+
+	var li = $(`#p-${to}`).closest('li');
+	switch(chat) {
+	case 'jailed':
+		var button = li.find('.jailbutton, .releasebutton');
+		if (state)
+		{
+			button.removeClass('jailbutton');
+			button.addClass('releasebutton');
+			button.html('<span>Release</span>');
+		}
+		else
+		{
+			button.removeClass('releasebutton');
+			button.addClass('jailbutton');
+			button.html('<span>Jail</span>');
+		}
+		break;
+	case 'entangled':
+		var button = li.find('.entanglebutton, .disentanglebutton');
+		if (state)
+		{
+			button.removeClass('entanglebutton');
+			button.addClass('disentanglebutton');
+			button.html('<span>Disentangle</span>');
+		}
+		else
+		{
+			button.removeClass('disentanglebutton');
+			button.addClass('entanglebutton');
+			button.html('<span>Entangle</span>');
+		}
+		break;
+	case 'douse':
+		if(state) {
+			$(`#p-${to}`).append(`<span class="emoji" id="${to}-fire">🔥</span>`);
+			$(`#${to}-fire`).click(() => {
+				if (mod) {
+				    socket.sendMessage(Type.TOGGLE, to, 'douse', false);
+				}
+			});
+		} else {
+			$(`#${to}-fire`).remove();
+		}
+		break;
+	default:
+		var controlbutton = li.find('.controlbutton');
+		if (state)
+		{
+			controlbutton.addClass(chat+'buttondown');
+		}
+		else
+		{
+			controlbutton.removeClass(chat+'buttondown');
+		}
+	}
+});
 addSocketListener(Type.MAYOR, function(name) {
 	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor" style="color:#7fff00">(Mayor)</span>`)
 	$(`#${name}-mayor`).click(() => {
@@ -971,7 +975,7 @@ addSocketListener(Type.GARDENIA, function(name) {
 		}
 	});
 });
-addSocketListener(Type.VOTE,function(voter,msg,voted,prev)
+addSocketListener(Type.VOTE,function(voter,msg,voted,prev,power)
 {
 	if (!mod)
 	{
@@ -983,17 +987,17 @@ addSocketListener(Type.VOTE,function(voter,msg,voted,prev)
 			{
 				var count = li.querySelector('.votecount');
 				var num = parseInt(count.innerHTML);
-				num--;
+				num -= power;
 				count.innerHTML=num;
 			}
 		}
-		if (voted!='')
+		if (voted)
 		{
 			var index = users.indexOf(voted);
 			var li =$('#userlist li')[index];
 			var count = li.querySelector('.votecount');
 			var num = parseInt(count.innerHTML);
-			num++;
+			num += power;
 			count.innerHTML=num;
 		}
 	}

@@ -6,6 +6,8 @@ var vampcolor = '#7b8968';
 var floraecolor = '#228f41';
 var positivecolor = '#FFFF0A';
 var negativecolor = '#0A0AFF';
+var godcolor = '#FFC000';
+var sincolor = '#92D050';
 var randcolor = '#49a9d0';
 var neutcolor = '#cccccc';
 var anycolor = '#F5F5F5';
@@ -81,52 +83,61 @@ var roles = [
 		goal: towngoal,
 		color: towncolor,
 	},
-
-	// TOWN SUPPORT VANILLA
+	
+	// TOWN KILLING VANILLA
 	{
-		rolename: 'escort',
-		alignment: 'town support',
-		abilities: ['Distract someone each night.'],
-		attributes: ["Distraction blocks your target from using their role's night ability.", 'You cannot be roleblocked.'],
+		rolename: 'jailor',
+		alignment: 'town killing',
+		attack: 'Unstoppable',
+		abilities: ['You may choose one person during the day to jail for the night.'],
+		attributes: [
+			'You may anonymously talk with your prisoner.',
+			'You can choose to execute your prisoner.',
+			"The jailed target can't perform their night ability.",
+			'If you execute a Town member, you forfeit further executions.',
+		],
+		day_targeting: ['living other'],
+		targeting: ['jailed notfirst'],
+		goal: towngoal,
+		color: towncolor,
+	},
+	{
+		rolename: 'vampire hunter',
+		alignment: 'town killing',
+		attack: 'Basic',
+		abilities: ['Check for Vampires each night.'],
+		attributes: [
+			'If you visit a Vampire you will attack them.',
+			'If a Vampire visits you, you will attack them.',
+			'You can hear Vampires at night.',
+			'If all the Vampires die you will become a Vigilante with one bullet.',
+		],
 		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 	},
 	{
-		rolename: 'mayor',
-		alignment: 'town support',
-		abilities: ['You may reveal yourself as the Mayor of the Town.'],
-		attributes: ['Once you have revealed yourself as Mayor your vote counts as 3 votes.', 'You may not be Healed once you have revealed yourself.', 'Once revealed, you can\'t whisper, or be whispered to.'],
-		day_targeting: ['self'],
-		targeting: [],
+		rolename: 'veteran',
+		alignment: 'town killing',
+		attack: 'Powerful',
+		abilities: ['Decide if you will go on alert.'],
+		attributes: [
+			'While on alert, you gain Basic Defense.',
+			'While on alert, you will deliver a Powerful attack to anyone who visits you.',
+			'You can only go on alert 3 times.',
+			'You cannot be roleblocked.',
+		],
+		targeting: ['self'],
 		goal: towngoal,
 		color: towncolor,
 	},
 	{
-		rolename: 'medium',
-		alignment: 'town support',
-		abilities: ['When dead, seance a living person at night.'],
-		attributes: ['You will speak to the dead anonymously each night you are alive.', 'You may only seance a living person once.'],
-		targeting: [],
-		day_dead_targeting: ['living'],
-		goal: towngoal,
-		color: towncolor,
-	},
-	{
-		rolename: 'transporter',
-		alignment: 'town support',
-		abilities: ['Choose two people to transport at night.'],
-		attributes: ['Transporting two people swaps all targets against them.', 'You may transport yourself.', 'Your targets will know they were transported.'],
-		targeting: ['living', 'living'],
-		goal: towngoal,
-		color: towncolor,
-	},
-	{
-		rolename: 'retributionist',
-		alignment: 'town support',
-		abilities: ['You may raise a dead Town member and use their ability on a player.'],
-		attributes: ['Create zombies from dead true-hearted Town players.', 'Use their abilities on your second target.', 'Each zombie can be used once before it rots.'],
-		targeting: ['dead town notfirst', 'living'],
+		rolename: 'vigilante',
+		alignment: 'town killing',
+		attack: 'Basic',
+		abilities: ['Choose to take justice into your own hands and shoot someone.'],
+		attributes: ['If you shoot another Town member you will commit suicide over the guilt.', 'You can only shoot your gun 3 times.'],
+		targeting: ['living other notfirst'],
 		goal: towngoal,
 		color: towncolor,
 	},
@@ -186,61 +197,52 @@ var roles = [
 		goal: towngoal,
 		color: towncolor,
 	},
-
-	// TOWN KILLING VANILLA
+	
+	// TOWN SUPPORT VANILLA
 	{
-		rolename: 'jailor',
-		alignment: 'town killing',
-		attack: 'Unstoppable',
-		abilities: ['You may choose one person during the day to jail for the night.'],
-		attributes: [
-			'You may anonymously talk with your prisoner.',
-			'You can choose to execute your prisoner.',
-			"The jailed target can't perform their night ability.",
-			'If you execute a Town member, you forfeit further executions.',
-		],
-		day_targeting: ['living other'],
-		targeting: ['jailed notfirst'],
-		goal: towngoal,
-		color: towncolor,
-	},
-	{
-		rolename: 'vampire hunter',
-		alignment: 'town killing',
-		attack: 'Basic',
-		abilities: ['Check for Vampires each night.'],
-		attributes: [
-			'If you visit a Vampire you will attack them.',
-			'If a Vampire visits you, you will attack them.',
-			'You can hear Vampires at night.',
-			'If all the Vampires die you will become a Vigilante with one bullet.',
-		],
+		rolename: 'escort',
+		alignment: 'town support',
+		abilities: ['Distract someone each night.'],
+		attributes: ["Distraction blocks your target from using their role's night ability.", 'You cannot be roleblocked.'],
 		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 	},
 	{
-		rolename: 'veteran',
-		alignment: 'town killing',
-		attack: 'Powerful',
-		abilities: ['Decide if you will go on alert.'],
-		attributes: [
-			'While on alert, you gain Basic Defense.',
-			'While on alert, you will deliver a Powerful attack to anyone who visits you.',
-			'You can only go on alert 3 times.',
-			'You cannot be roleblocked.',
-		],
-		targeting: ['self'],
+		rolename: 'mayor',
+		alignment: 'town support',
+		abilities: ['You may reveal yourself as the Mayor of the Town.'],
+		attributes: ['Once you have revealed yourself as Mayor your vote counts as 3 votes.', 'You may not be Healed once you have revealed yourself.', 'Once revealed, you can\'t whisper, or be whispered to.'],
+		day_targeting: ['self'],
+		targeting: [],
 		goal: towngoal,
 		color: towncolor,
 	},
 	{
-		rolename: 'vigilante',
-		alignment: 'town killing',
-		attack: 'Basic',
-		abilities: ['Choose to take justice into your own hands and shoot someone.'],
-		attributes: ['If you shoot another Town member you will commit suicide over the guilt.', 'You can only shoot your gun 3 times.'],
-		targeting: ['living other notfirst'],
+		rolename: 'medium',
+		alignment: 'town support',
+		abilities: ['When dead, seance a living person at night.'],
+		attributes: ['You will speak to the dead anonymously each night you are alive.', 'You may only seance a living person once.'],
+		targeting: [],
+		day_dead_targeting: ['living'],
+		goal: towngoal,
+		color: towncolor,
+	},
+	{
+		rolename: 'transporter',
+		alignment: 'town support',
+		abilities: ['Choose two people to transport at night.'],
+		attributes: ['Transporting two people swaps all targets against them.', 'You may transport yourself.', 'Your targets will know they were transported.'],
+		targeting: ['living', 'living'],
+		goal: towngoal,
+		color: towncolor,
+	},
+	{
+		rolename: 'retributionist',
+		alignment: 'town support',
+		abilities: ['You may raise a dead Town member and use their ability on a player.'],
+		attributes: ['Create zombies from dead true-hearted Town players.', 'Use their abilities on your second target.', 'Each zombie can be used once before it rots.'],
+		targeting: ['dead town notfirst', 'living'],
 		goal: towngoal,
 		color: towncolor,
 	},
@@ -625,7 +627,7 @@ var roles = [
 		alignment: 'neutral chaos',
 		attack: 'Powerful',
 		defense: 'Invincible',
-		abilities: ["You may choose to Rampage at a player's house each night."],
+		abilities: ['You may choose to Rampage at a player\'s house each night.'],
 		attributes: [
 			'You will attack anyone that visits you or your target.',
 			'You cannot be roleblocked or controlled.',
@@ -660,7 +662,7 @@ var roles = [
 		abilities: ['Investigate one person at night for Occult activities.'],
 		attributes: [
 			'You will know if your target participates in Occult activities.',
-			'Occult roles: Mediums, Psychics, Retributionist, other Occultists, Hypnotists, Witches, Coven members, Guardian Angels, Vampires, Plaguebearers, Pestilence, Juggernauts, Werewolves.',
+			'Occult roles: Doctors, Mediums, Psychics, Retributionist, other Occultists, Hypnotists, Witches, Coven members, Guardian Angels, Vampires, Plaguebearers, Pestilence, Juggernauts, Werewolves.',
 		],
 		targeting: ['living other'],
 		goal: towngoal,
@@ -673,6 +675,19 @@ var roles = [
 		abilities: ['Investigate one role slot at night to see who the player in that role slot visits.'],
 		attributes: ['Your night action does not count as a visit.', 'If the role slot is Any, you will be told which general alignment that role slot was rolled as (Town, Mafia, Coven, Neutral).'],
 		targeting: [],
+		goal: towngoal,
+		color: towncolor,
+		custom: true,
+	},
+	{
+		rolename: 'harbringer',
+		alignment: 'town investigative',
+		abilities: ['You may read someone\'s consciense at night.'],
+		attributes: [
+			'You will know if your target is Guilty, In Doubt, or Clear.',
+			'You will be notified if a God is 1 level away from Enlightenment.',
+		],
+		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -781,8 +796,36 @@ var roles = [
 
 	// TOWN KILLING CUSTOM
 	{
+		rolename: 'engineer',
+		alignment: 'town killing',
+		abilities: ['You may shoot someone at night or upgrade your gun for a stronger attack.'],
+		attributes: [
+			'Shooting your gun resets your attack level.',
+			'Attempting to upgrade your gun after it is Powerful will reset your attack level.',
+			'If you kill another Townmember you will put away your tools and are unable to shoot.',
+		],
+		targeting: ['living other'],
+		goal: towngoal,
+		color: towncolor,
+		custom: true,
+	},
+	{
+		rolename: 'firebrand',
+		alignment: 'town killing',
+		abilities: ['You may douse one player in gasoline or ignite all doused targets.'],
+		attributes: [
+			'You may not ignite players doused by other Firebrands or Arsonists unless you also doused them.',
+			'If igniting would otherwise kill two or more Town members, you will instead burn yourself and your will.',
+			'If you target someone who you doused previously they will become undoused.',
+		],
+		targeting: ['living'],
+		goal: towngoal,
+		color: towncolor,
+		custom: true,
+	},
+	{
 		rolename: 'fisherman',
-		alignment: 'Town Killing',
+		alignment: 'town killing',
 		abilities: ['Cast your line into someone’s house each night.'],
 		attributes: [
 			'If someone visits your target, they will be “hooked”.',
@@ -794,20 +837,33 @@ var roles = [
 		color: towncolor,
 		custom: true,
 	},
-
 	// MAFIA CUSTOM
 	{
 		rolename: 'ambusher buff',
 		alignment: 'mafia killing',
 		attack: 'Basic',
-		abilities: ['You may choose to lie in wait outside your targets house.'],
+		abilities: ['You may choose to lie in wait outside your target\'s house.'],
 		attributes: [
 			'You will attack one player who visits your target.',
 			'All players visiting your target will learn your name.',
 			'You can choose to be cautious and not kill anyone if there is more than one visitor to your target.',
-			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 		],
 		targeting: ['living nonmafia'],
+		goal: mafiagoal,
+		color: mafiacolor,
+	},
+	{
+		rolename: 'kidnapper',
+		alignment: 'mafia killing',
+		attack: 'Basic',
+		abilities: ['You may kidnap a player during the day to hold hostage for the night.'],
+		attributes: [
+			'You may only exterminate a player once. You will become a Mafioso after you exterminate someone.',
+			'You may not kidnap the same player twice in a row.',
+			'You may not kidnap a revealed Mayor.',
+		],
+		day_targeting: ['living nonmafia'],
+		targeting: ['self'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -840,12 +896,25 @@ var roles = [
 		custom: true,
 	},
 	{
+		rolename: 'trickster',
+		alignment: 'mafia support',
+		abilities: ['You may hide a player at another player\'s house at night.'],
+		attributes: [
+			'Anyone who visits your first target will visit your second target instead.',
+			'Attacks and protections cannot be redirected.',
+			'One of your targets must be a member of the Mafia.',
+		],
+		targeting: ['living', 'living'],
+		goal: mafiagoal,
+		color: mafiacolor,
+		custom: true,
+	},
+	{
 		rolename: 'consigliere buff',
 		alignment: 'mafia support',
 		abilities: ['Check one person for their exact role each night.'],
 		attributes: [
-			'You will also know how many of that role, alignment, and faction are currently alive.',
-			'All Neutrals will be listed as the Neutral faction.',
+			'You will learn how many living players share the same subalignment as your target.',
 			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 			'You can talk with the other Mafia at night.',
 		],
@@ -864,42 +933,12 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'associate',
-		alignment: 'mafia support',
-		abilities: ['Choose a mafia member to help during the day.'],
-		attributes: [
-			'When you help a Mafia member, their abilities will be enhanced for the night.',
-			'You may use Alibi, Stealth, or Efficiency.',
-			'You may use Alibi on yourself.',
-			'You can only use each ability on each Mafia member once.',
-		],
-		targeting: ['living mafia'],
-		goal: mafiagoal,
-		color: mafiacolor,
-		custom: true,
-	},
-	{
 		rolename: 'musician',
 		alignment: 'mafia support',
 		abilities: ['You may perform at someone\'s house at night, drawing their visitors to you.',
 			    'You may Serenade by selecting yourself, reducing the amount of trials the next day to one.'],
 		attributes: ['You may only perform at each player\'s house once', 'You can only Serenade twice.'],
 		targeting: ['living'],
-		goal: mafiagoal,
-		color: mafiacolor,
-		custom: true,
-	},
-	{
-		rolename: 'malpractitioner',
-		alignment: 'mafia support',
-		abilities: ['Torture someone at night, blocking all abilities.'],
-		attributes: [
-			'You can block day and night abilities.',
-			'When blocked, actions wont be performed and become stored.',
-			'When you stop blocking, the most recent action is released with all the rest getting roleblocked.',
-			'You must switch target if you torture someone for 2 consecutive nights.',
-		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -965,37 +1004,6 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'spellslinger',
-		alignment: 'coven evil',
-		attack: 'Basic',
-		abilities: ['Charm a player each night, forcing them to visit you that night.'],
-		attributes: [
-			'Players that visit you twice or that you charm twice are dealt a Basic attack to.',
-			'Charmed targets will not know they were charmed.',
-			'With the Necronomicon, charms repeat on the subsequent night without you needing to visit the target.',
-		],
-		targeting: ['living noncoven'],
-		goal: covengoal,
-		color: covencolor,
-		custom: true,
-	},
-	{
-		rolename: 'ritualist',
-		alignment: 'coven evil',
-		attack: 'Basic',
-		abilities: ['You may curse two players every night.'],
-		attributes: [
-			'If a cursed player is lynched, you may deal a basic rampage attack against one player the following night.',
-			'All players are notified when a cursed player is lynched.',
-			'Curses are permanent.',
-			'With the Necronomicon, you may deal a basic rampage attack against someone regardless of whether a cursed person was lynched.',
-		],
-		targeting: ['living noncoven', 'living noncoven'],
-		goal: covengoal,
-		color: covencolor,
-		custom: true,
-	},
-	{
 		rolename: 'mystic',
 		alignment: 'coven evil',
 		attack: 'Basic',
@@ -1034,13 +1042,40 @@ var roles = [
 		abilities: ['Carry out your employer\'s abilities each night.'],
 		attributes: [
 			'You will share a chat with your employer, and you will gain access to any exclusive chats that your master has access to.',
-			'If you are roleblocked, your employer will carry out the action themself.',
-			'You gain all Attributes your master has.',
+			'If you are roleblocked, your employer will carry out the action themselves.',
+			'You gain all attributes your master has.',
 			'If your employer dies while you are still alive, you will inherit their role.',
 		],
 		targeting: [],
 		goal: 'See your employer win the game.',
 		color: '#80BFBF',
+		custom: true,
+	},
+	{
+		rolename: 'deputy',
+		alignment: 'neutral benign',
+		abilities: ['You may watch over a player at night.'],
+		attributes: [
+			'You have a bulletproof vest that grants you Basic Defense until you are attacked.',
+			'If your target dies that night or is lynched the next day, you will inherit their role.',
+		],
+		targeting: ['living other'],
+		goal: 'Assume someone\'s role and fulfill their win conditions.',
+		color: '#407280',
+		custom: true,
+	},
+	{
+		rolename: 'viper',
+		alignment: 'neutral benign',
+		abilities: ['Visit one player each night, obtaining their wincon and redirecting all harmful visits from them onto yourself.'],
+		attributes: [
+			'You have a thick barrier that grants you Basic Defense until you are attacked.',
+			'You may not visit someone the night after you change win conditions.',
+			'You will be informed of your current win conditions.',
+		],
+		targeting: ['living other'],
+		goal: 'Survive to see your most recent target win the game.',
+		color: '#c87366',
 		custom: true,
 	},
 	{
@@ -1075,10 +1110,12 @@ var roles = [
 
 	// NEUTRAL EVIL CUSTOM
 	{
-		rolename: 'rolestopper',
+		rolename: 'scarecrow',
 		alignment: 'neutral evil',
-		abilities: ['Each night, you may visit a target in order to scare off a visitor.'],
-		attributes: ['You will scare one visitor away from your target, effectively roleblocking them.', 'You can only scare Town roles away from your target.'],
+		abilities: ['You may stalk someone at night, scaring away anyone that visits them.'],
+		attributes: ['You have a straw coat that grants you Basic defense until you are attacked.',
+			     'You will know who your target visits.',
+			     'You cannot be roleblocked.'],
 		targeting: ['living other'],
 		goal: 'Survive to see the Town lose the game.',
 		color: '#BF4040',
@@ -1165,6 +1202,22 @@ var roles = [
 		custom: true,
 	},
 	{
+		rolename: 'parasite',
+		alignment: 'neutral killing',
+		attack: 'Basic',
+		defense: 'Basic',
+		abilities: ['You may choose a host to live off of at night or bite players with your charges.'],
+		attributes: [
+			'You gain two bite charges at the end of each night that you have a host.',
+			'If your host dies, you will lose any bite charges and must select a new host.',
+			'After biting someone you must select a new host.',
+		],
+		targeting: ['living other', 'living other'],
+		goal: 'Kill anyone that would oppose you.',
+		color: '#607020',
+		custom: true,
+	},
+	{
 		rolename: 'slaughterer',
 		alignment: 'neutral killing',
 		abilities: ['Slaughter someone each night', 'Wear a new mask in the day'],
@@ -1186,13 +1239,13 @@ var roles = [
 		alignment: 'neutral killing',
 		attack: 'Powerful',
 		defense: 'Basic',
-		abilities: ['You may devour a player on every odd night.'],
+		abilities: ['You may devour a player on odd nights.'],
 		attributes: [
 			'You will attack one random player that visits you every night.',
 			'If you do not choose to devour you will attack someone at random.',
 			'All of your victims will have their role and last will unreadable upon death. Those you attack directly will be cleaned, and those who die from visiting you will only have their subalignment shown.',
 		],
-		targeting: ['living other'],
+		targeting: ['living other odd'],
 		goal: 'Devour all who occupy the town.',
 		color: '#808000',
 		custom: true,
@@ -1204,7 +1257,7 @@ var roles = [
 		alignment: 'neutral chaos',
 		attack: 'Basic',
 		defense: 'Basic',
-		abilities: ['Each night, you may choose two players: one will be healed, one will be attacked.'],
+		abilities: ['You may attack a player and heal another player at night.'],
 		attributes: ['You may not heal yourself.', 'You only win if every other faction is reduced to a single member. At least two other factions must survive.'],
 		targeting: ['living other', 'living other'],
 		goal: 'Successfully Conquer the Town.',
@@ -1272,20 +1325,257 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'shaman',
+		rolename: 'niran',
 		alignment: 'neutral chaos',
 		attack: 'Powerful',
 		defense: 'Basic',
-		abilities: ['You may extend your life by killing others at night. Your target does not have to die to have your life extended.'],
-		attributes: ['You start off with three days to live. You will die if you run out of days.',
-			'You gain two days if no one visits your target and they are not Doused/Hexed.',
-			'You gain one day if a player visits your target of if they are Doused/Hexed.',
-			'You gain no days if your target would\'ve died to other causes or if they were poisoned.',
-			'If you are attacked you will lose a day.',
+		abilities: ['You may channel someone\'s divine energy at night.'],
+		attributes: ['.',
 		],
 		targeting: ['living other'],
-		goal: 'Survive to the end of the game.',
+		goal: 'Survive to see the Town and the Gods lose the game.',
 		color: '#8080BF',
+		custom: true,
+	},
+	
+	// NEUTRAL SAINT CUSTOM
+	{
+		rolename: 'stain',
+		alignment: 'neutral saint',
+		attack: 'Basic',
+		defense: 'Basic',
+		abilities: ['You may stalk a person on Full Moon nights, marking them and whoever they visit.'],
+		attributes: ['You are able to mark a player the next two nights after you stalk someone.',
+			'Every third night starting on Night 4, you will attack all marked players, along with dealing a Basic attack to your target.',
+			'If you are roleblocked, all marks are removed and you will deal a Powerful attack to your roleblocker. Their Last Will will be unreadable.',
+			'If you take no action, you will spend the night removing any mark on yourself.',
+		],
+		targeting: ['living other'],
+		goal: 'Successfully kill 5 people and become War.',
+		color: '#800000',
+		custom: true,
+	},
+	{
+		rolename: 'hood',
+		alignment: 'neutral saint',
+		abilities: ['You may drain a player during the day, roleblocking them the following night.',
+			    'Give out supplies to someone at night, giving them an extra vote the next day.'],
+		attributes: ['Drained players can transfer their drainage by visiting another player.',
+			'Anyone who visits you will become Drained.',
+			'At the end of each night, you gain 1 stamp for every living Drained player.',
+		],
+		day_targeting: ['living other'],
+		targeting: ['living other'],
+		goal: 'Get 8 stamps and become Famine.',
+		color: '#538135',
+		custom: true,
+	},
+	{
+		rolename: 'weakness',
+		alignment: 'neutral saint',
+		attack: 'None',
+		defense: 'Basic',
+		abilities: ['You may damn a player on Full Moon nights.'],
+		attributes: ['Damned players will have their abilities weakened.',
+			'Damned players won\'t know they were damned.',
+			'When half of the players alive are damned, you will become Conquest.',
+		],
+		targeting: ['living other fullmoon'],
+		goal: 'Sucessfully damn half of the players alive and become Conquest.',
+		color: '#CC3399',
+		custom: true,
+	},
+	{
+		rolename: 'warrior',
+		alignment: 'neutral saint',
+		attack: 'Basic',
+		abilities: ['You may attack a player at night.'],
+		attributes: ['If your target is directly attacked, you will attack their attackers instead.',
+			'With each kill you will power up.',
+			'When you kill 4 players, you will become Wrath.',
+		],
+		targeting: ['living other'],
+		goal: 'Sucessfully kill 4 players and become Wrath.',
+		color: '#C86B04',
+		custom: true,
+	},
+	{
+		rolename: 'pander',
+		alignment: 'neutral saint',
+		attack: 'None',
+		defense: 'Basic',
+		abilities: ['You may check two players at night, making them lovers if they share the same win conditions.'],
+		attributes: ['Lovers will learn that they have a lover, but not who it is.',
+			'With each lover that is created you power up.',
+			'When there are five lovers alive, you will become Lust.',
+		],
+		targeting: ['living other', 'living other'],
+		goal: 'Sucessfully have 5 people become lovers and become Lust.',
+		color: '#FF9999',
+		custom: true,
+	},
+	{
+		rolename: 'webslinger',
+		alignment: 'neutral saint',
+		attack: 'Basic',
+		defense: 'Basic',
+		abilities: ['You may cast a web on someone at night, preventing them from talking or voting.'],
+		attributes: ['Webs last two nights or if a player with a web is visited or voted up.',
+			'You will deliver a Basic Attack if you visit a webbed player.',
+			'At the end of each night, you gain 1 token for each player that is webbed.',
+		],
+		targeting: ['living other'],
+		goal: 'Sucessfully earn 7 tokens and become Sloth.',
+		color: '#E7E6E6',
+		custom: true,
+	},
+	{
+		rolename: 'king midas',
+		alignment: 'neutral saint',
+		attack: 'Powerful',
+		defense: 'Basic',
+		abilities: ['You may turn someone to gold at night, hiding their role and Last Will upon death.'],
+		attributes: ['If you do not choose someone to turn to gold, one will be selected at random.',
+			'If your gold touch fails by any means, you will turn half of yourself to gold.',
+			'You will deal an Unstoppable attack to yourself if your gold touch fails twice.',
+		],
+		targeting: ['living other'],
+		goal: 'Sucessfully turn 3 players to gold and become Greed.',
+		color: '#BF8F00',
+		custom: true,
+	},
+	{
+		rolename: 'cannibal',
+		alignment: 'neutral saint',
+		attack: 'Powerful',
+		abilities: ['You may question a player during the day, making them choose an ingredient the following night.'],
+		attributes: ['You may pick two ingredients: Meat, Spices, or Vegetables. If your target picks one of the two you picked, you will attack them.',
+			'You gain a power based on the role of your last victim was.',
+		],
+		day_targeting: ['living other'],
+		targeting: ['living other'],
+		goal: 'Sucessfully turn 3 players to gold and become Greed.',
+		color: '#CCCC00',
+		custom: true,
+	},
+	{
+		rolename: 'celebrity',
+		alignment: 'neutral saint',
+		attack: 'None',
+		defense: 'Basic',
+		abilities: ['You may give an autograph to someone at night, making them idolize you.'],
+		attributes: ['Your power grows based on how many people are idolized.',
+			'If everyone alive is idolized, the game will end and you will win.',
+		],
+		targeting: ['living other'],
+		goal: 'Idolize 7 people and become Pride.',
+		color: '#C45911',
+		custom: true,
+	},
+	{
+		rolename: 'thought',
+		alignment: 'neutral saint',
+		abilities: ['You may place a thought in someone\'s mind at night, confusing them.'],
+		attributes: ['You gain a new power for each player that has a thought.',
+			     'If 5 people have a thought of yours, you will become Envy.',
+		],
+		targeting: ['living other'],
+		goal: 'Sucessfully give thoughts to 5 people and become Envy.',
+		color: '#8EAADB',
+		custom: true,
+	},
+	
+	// GOD HORSEMAN CUSTOM
+	{
+		rolename: 'war',
+		alignment: 'god horseman',
+		abilities: ['.'],
+		attributes: ['.',
+		],
+		targeting: ['living other'],
+		goal: 'Kill all who would oppose you.',
+		color: '#FF0000',
+		custom: true,
+	},
+	{
+		rolename: 'famine',
+		alignment: 'god horseman',
+		abilities: ['.'],
+		attributes: ['.',
+		],
+		targeting: ['living other'],
+		goal: 'Kill all who would oppose you.',
+		color: '#E7E6E6',
+		custom: true,
+	},
+	{
+		rolename: 'conquest',
+		alignment: 'god horseman',
+		abilities: ['.'],
+		attributes: ['.',
+		],
+		targeting: ['living other'],
+		goal: 'Kill all who would oppose you.',
+		color: '#3F193A',
+		custom: true,
+	},
+	
+	// GOD DEADLY SIN
+	{
+		rolename: 'wrath',
+		alignment: 'god deadly sin',
+		attack: 'Powerful',
+		defense: 'Basic',
+		abilities: ['You may attack a player at night.'],
+		attributes: ['You will kill anyone that visits your target.',
+		],
+		targeting: ['living other'],
+		goal: 'Kill all who would oppose you.',
+		color: '#C00000',
+		custom: true,
+	},
+	{
+		rolename: 'lust',
+		alignment: 'god deadly sin',
+		attack: 'Powerful',
+		defense: 'Invincible',
+		abilities: ['You may check two players at night, making them lovers if they share the same win conditions.'],
+		attributes: ['Lovers will learn that they have a lover, but not who it is.',
+			     'When all players alive are lovers, you may kill someone at night, killing them and their lover.',
+		],
+		targeting: ['living other'],
+		goal: 'Kill all who would oppose you.',
+		color: '#FF66FF',
+		custom: true,
+	},
+	{
+		rolename: 'sloth',
+		alignment: 'god deadly sin',
+		attack: 'Unstoppable',
+		defense: 'Basic',
+		abilities: ['You may cast a web on someone at night, preventing them from talking or voting.'],
+		attributes: ['Webs last two nights or if a player with a web is visited or voted up.',
+			'You will deliver an Unstoppable attack if you visit a webbed player.',
+			'Anyone that visits you will have their ability fail and will become webbed.',
+		],
+		targeting: ['living other'],
+		goal: 'Kill all who would oppose you.',
+		color: '#F0F0F0; text-shadow: 0px 0px 5px #000000',
+		custom: true,
+	},
+	{
+		rolename: 'greed',
+		alignment: 'god deadly sin',
+		attack: 'Unstoppable',
+		defense: 'Powerful',
+		abilities: ['You may turn a player into gold at night, hiding their role and Last Will upon death.'],
+		attributes: ['If you do not choose someone to turn to gold, one will be selected at random.',
+			     'You will turn anyone that visits you into gold.',
+			     'You will deal an Unstoppable attack to yourself if your gold touch fails twice.',
+		],
+		targeting: ['living other'],
+		goal: 'Kill all who would oppose you.',
+		color: '#FFFF00; text-shadow: 0px 0px 5px #964B00',
 		custom: true,
 	},
 
@@ -1686,9 +1976,8 @@ var roles = [
 	{
 		rolename: 'phlox',
 		alignment: 'flora support',
-		abilities: ['You may purify a player at night.'],
-		attributes: ['When a player is purified they cannot be voted the next day. This can be done from the grave.',
-			    'Players will be notified if they are purified.',
+		abilities: ['You may purify a player at night, automatically pardoning any of their trials the next day.'],
+		attributes: ['When a player is purified they cannot be lynched the next day.',
 			    'You may purify yourself once.',
 			    'You may only purify three times.'],
 		targeting: ['living'],
@@ -1790,6 +2079,8 @@ var roles = [
 	{
 		rolename: 'camera',
 		alignment: 'negative head',
+		attack: 'None',
+		defense: 'Basic',
 		abilities: ['You may Negatively charge someone and learn all their visitors at night.'],
 		attributes: ['If a player you see visiting is Negatively charged, you will know their role as well.',
 			     'When you are promoted to Killing, you will become the Defibrillator.'],
@@ -1801,6 +2092,8 @@ var roles = [
 	{
 		rolename: 'sensor',
 		alignment: 'negative head',
+		attack: 'None',
+		defense: 'Basic',
 		abilities: ['Every night, you may choose to charge a player Negatively who isn\'t currently Positively charged.'],
 		attributes: ['You will know who is Positively charged.',
 			     'Every night you will receive the feedback of Positive players.',
@@ -1858,9 +2151,8 @@ var roles = [
 		rolename: 'receiver',
 		alignment: 'negative support',
 		abilities: ['You may place or remove a receiver at a player\'s house at night.'],
-		attributes: ['Receivers give you all feedback and notifications of whoever they are placed on.',
+		attributes: ['Receivers let you see who your targets visit and any notifications they would get.',
 			     'You will not know who the info given belongs to if both your Receivers have been placed.',
-			     'You will learn who your targets visit.',
 			     'You can only have 2 receivers out at a time.',
 			     'You will only Negatively charge your target when placing a receiver on them.',
 			     'When you are promoted to Killing, you will become the the Defibrillator.'],
@@ -2126,7 +2418,13 @@ module.exports = {
 			if (num == -1) {
 				return "Role '" + name + "' not found!";
 			}
-			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><b>Alignment</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
+			var [alMajor, ...alMinor] = roles[num].alignment.split(' ');
+			if(alMinor.length) {
+				alMinor = " (<span style='color:" + randcolor + "'>"+alMinor.map(capitalize).join(' ')+"</span>)";
+			} else {
+				alMinor = "";
+			}
+			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><b>Alignment</b>: </span><span style='color:" + roles[num].color + "'>" + capitalize(alMajor) + alMinor + "</span>";
 			var atk = "<span class='attack' style='color:" + randcolor + "'><b>Attack</b>: </span>" + getAttack(num);
 			var def = "<span class='defense' style='color:" + randcolor + "'><b>Defense</b>: </span>" + getDefense(num);
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
@@ -2160,11 +2458,18 @@ module.exports = {
 		}
 		return roles[num];
 	},
-	formatAlignment: function (str) {
+	formatRolename: function (str) {
 		if (module.exports.hasRolecard(str)) {
 			var num = getRoleNum(str.toLowerCase());
 			var color;
-			str = "<span style='color:" + roles[num].color + "'>" + capitalize(roles[num].rolename) + '</span>';
+			return "<span style='color:" + roles[num].color + "'>" + capitalize(roles[num].rolename) + '</span>';
+		} else {
+			return str;
+		}
+	},
+	formatAlignment: function (str) {
+		if (module.exports.hasRolecard(str)) {
+			return module.exports.formatRolename(str);
 		} else {
 			str = str.replace(/[Tt]own/, "<span style='color:" + towncolor + "'>Town</span>");
 			str = str.replace(/[Ii]nvestigative/, "<span style='color:" + randcolor + "'>Investigative</span>");
@@ -2177,6 +2482,9 @@ module.exports = {
 			str = str.replace(/[Dd]eception/, "<span style='color:" + randcolor + "'>Deception</span>");
 			str = str.replace(/[Cc]oven/, "<span style='color:" + covencolor + "'>Coven</span>");
 			str = str.replace(/[Ee]vil/, "<span style='color:" + randcolor + "'>Evil</span>");
+			str = str.replace(/[Bb]enign/, "<span style='color:" + randcolor + "'>Benign</span>");
+			str = str.replace(/[Ss]aint/, "<span style='color:" + randcolor + "'>Saint</span>");
+			str = str.replace(/[Cc]haos/, "<span style='color:" + randcolor + "'>Chaos</span>");
 			str = str.replace(/[Vv]ampire/, "<span style='color:" + vampcolor + "'>Vampire</span>");
 			str = str.replace(/[Ff]lorae/, "<span style='color:" + floraecolor + "'>Florae</span>");
 			str = str.replace(/[Ff]lora/, "<span style='color:" + floraecolor + "'>Flora</span>");
@@ -2185,12 +2493,12 @@ module.exports = {
 			str = str.replace(/[Dd]ead/, "<span style='color:" + randcolor + "'>Dead</span>");
 			str = str.replace(/[Mm]ystical/, "<span style='color:" + mystcolor + "'>Mystical</span>");
 			str = str.replace(/[Oo]verseer/, "<span style='color:" + overcolor + "'>Overseer</span>");
-			str = str.replace(/[Bb]enign/, "<span style='color:" + randcolor + "'>Benign</span>");
-			str = str.replace(/[Cc]haos/, "<span style='color:" + randcolor + "'>Chaos</span>");
 			str = str.replace(/[Hh]ead/, "<span style='color:" + randcolor + "'>Head</span>");
 			str = str.replace(/[Nn]eutral/, "<span style='color:" + neutcolor + "'>Neutral</span>");
 			str = str.replace(/[Pp]ositive/, "<span style='color:" + positivecolor + "'>Positive</span>");
 			str = str.replace(/[Nn]egative/, "<span style='color:" + negativecolor + "'>Negative</span>");
+			str = str.replace(/[Gg]od/, "<span style='color:" + godcolor + "'>God</span>");
+			str = str.replace(/[Dd]eadly Sin/, "<span style='color:" + sincolor + "'>Deadly Sin</span>");
 		}
 		return str;
 	},
