@@ -812,7 +812,7 @@ var roles = [
 	{
 		rolename: 'firebrand',
 		alignment: 'town killing',
-		abilities: ['You may douse one player in gasoline or ignite all doused targets.'],
+		abilities: ['You may douse one player in gasoline or ignite all doused targets (1 use).'],
 		attributes: [
 			'You may not ignite players doused by other Firebrands or Arsonists unless you also doused them.',
 			'If igniting would otherwise kill two or more Town members, you will instead burn yourself and your will.',
